@@ -1,0 +1,9 @@
+services:
+  dev:
+    image: ghcr.io/wayflyer/devcontainer:noble-3.12-dev
+    pull_policy: always
+    volumes:
+      - wf-state:/opt/wf-state
+volumes:
+  wf-state:
+    external: true

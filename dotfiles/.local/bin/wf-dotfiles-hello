@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "Your Dev 2.0 ✨ dotfiles are working!"

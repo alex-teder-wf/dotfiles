@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+import os
+from pathlib import Path
+
+def install(dotfiles_dir_path: Path, dir_path: Path) -> None:
+    for entry in os.scandir(dir_path):
+        entry_path = dir_path / entry.name
+        entry_path_rel = entry_path.relative_to(dotfiles_dir_path)
+        local_path = Path(Path.home() / entry_path_rel)
+        if entry.is_dir():
+            if not local_path.exists():
+                local_path.mkdir()
+            install(dotfiles_dir_path, entry_path)
+        else:
+            local_path.symlink_to(entry_path)
+
+def main() -> None:
+    dotfiles_dir_path = Path(__file__).parent / "dotfiles"
+    install(dotfiles_dir_path, dotfiles_dir_path)
+
+if __name__ == "__main__":
+    main()
