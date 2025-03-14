@@ -1,22 +1,24 @@
-#!/usr/bin/env python3
-import os
-from pathlib import Path
+#!/usr/bin/env node
+const path = require("node:path");
+const { exec } = require("node:child_process");
+const { promisify } = require("node:util");
 
-def install(dotfiles_dir_path: Path, dir_path: Path) -> None:
-    for entry in os.scandir(dir_path):
-        entry_path = dir_path / entry.name
-        entry_path_rel = entry_path.relative_to(dotfiles_dir_path)
-        local_path = Path(Path.home() / entry_path_rel)
-        if entry.is_dir():
-            if not local_path.exists():
-                local_path.mkdir()
-            install(dotfiles_dir_path, entry_path)
-        else:
-            local_path.symlink_to(entry_path)
+const _exec = promisify(exec);
+const run = (command) =>
+  _exec(command).then(({ stdout }) => console.log(stdout));
 
-def main() -> None:
-    dotfiles_dir_path = Path(__file__).parent / "dotfiles"
-    install(dotfiles_dir_path, dotfiles_dir_path)
+const NEOVIM_CONFIG_URL = "https://github.com/alex-teder/nvim-config-v2.git";
+const neovimConfigDestination = path.join(process.env.HOME, ".config", "nvim");
 
-if __name__ == "__main__":
-    main()
+(async () => {
+  try {
+    await run("apt update");
+    await run("apt install ripgrep neovim=0.9.5-6ubuntu2 -y");
+    await run(
+      `git clone --branch wf-dotfiles ${NEOVIM_CONFIG_URL} ${neovimConfigDestination}`,
+    );
+  } catch (err) {
+    console.error(err);
+    process.exit(0);
+  }
+})();
