@@ -50,12 +50,6 @@ const installNeovimFromSource = async () => {
 
   console.log("--- installing neovim...");
   await run("make install", { cwd: path.join(process.env.HOME, "neovim") });
-
-  fs.appendFileSync(
-    path.join(process.env.HOME, ".bashrc"),
-    '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"',
-  );
-  console.log("--- $PATH updated.");
 };
 
 (async () => {
@@ -66,9 +60,18 @@ const installNeovimFromSource = async () => {
     console.log("--- updating package repository...");
     await run("apt update");
 
-    await run("which nvim")
-      .then(() => run("apt install ripgrep -y"))
-      .catch((e) => (console.error(e), installNeovimFromSource()));
+    if (fs.existsSync("/opt/wf-state/neovim/bin/nvim")) {
+      console.log("--- neovim binary found.");
+      await run("apt install ripgrep -y");
+    } else {
+      await installNeovimFromSource();
+    }
+
+    fs.appendFileSync(
+      path.join(process.env.HOME, ".bashrc"),
+      '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"',
+    );
+    console.log("--- $PATH updated.");
 
     console.log("--- cloning neovim config...");
     await run(`git clone ${NEOVIM_CONFIG_URL} ${neovimConfigDestination}`);
