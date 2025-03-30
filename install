@@ -2,26 +2,48 @@
 const path = require("node:path");
 const { exec } = require("node:child_process");
 const { promisify } = require("node:util");
+const fs = require("node:fs");
 
 const run = promisify(exec);
 
 const NEOVIM_CONFIG_URL = "https://github.com/alex-teder/nvim-config-v2.git";
 const neovimConfigDestination = path.join(process.env.HOME, ".config", "nvim");
 
+const copyDir = (source, destination) => {
+  const items = fs.readdirSync(source);
+  for (const item in items) {
+    const srcPath = path.join(source, item);
+    const destPath = path.join(destination, item);
+
+    if (fs.statSync(srcPath).isDirectory()) {
+      copyDir(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+};
+
+const installDotfiles = () => {
+  copyDir(path.join(__dirname, "dotfiles"), process.env.HOME);
+};
+
 (async () => {
   try {
-    console.log("updating package repository...");
+    console.log("--- copying dotfiles... ---");
+    installDotfiles();
+
+    console.log("--- updating package repository... ---");
     await run("apt update");
 
-    console.log("installing neovim binary...");
+    console.log("--- installing neovim binary... ---");
     await run("apt install ripgrep neovim=0.9.5-6ubuntu2 -y");
 
-    console.log("cloning neovim config...");
+    console.log("--- cloning neovim config... ---");
     await run(
       `git clone --branch wf-dotfiles ${NEOVIM_CONFIG_URL} ${neovimConfigDestination}`,
     );
 
-    console.log("installation successful!");
+    console.log("--- installation successful! ---");
   } catch (err) {
     console.error(err);
     process.exit(1);
