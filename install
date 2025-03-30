@@ -31,23 +31,47 @@ const installDotfiles = () => {
   copyDir(path.join(__dirname, "dotfiles"), process.env.HOME);
 };
 
+const installNeovimFromSource = async () => {
+  console.log("--- installing dependencies...");
+  await run(
+    "apt install ninja-build gettext cmake curl build-essential ripgrep -y",
+  );
+
+  console.log("--- cloning neovim repository...");
+  await run(
+    `git clone --branch stable https://github.com/neovim/neovim ${path.join(process.env.HOME, "neovim")}`,
+  );
+
+  console.log("--- building neovim...");
+  await run(
+    'make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=/opt/wf-state/neovim"',
+    { cwd: path.join(process.env.HOME, "neovim") },
+  );
+
+  console.log("--- installing neovim...");
+  await run("make install", { cwd: path.join(process.env.HOME, "neovim") });
+
+  fs.appendFileSync(
+    path.join(process.env.HOME, ".bashrc"),
+    '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"',
+  );
+  console.log("--- $PATH updated.");
+};
+
 (async () => {
   try {
-    console.log("--- copying dotfiles... ---");
     installDotfiles();
+    console.log("--- dotfiles copied.");
 
-    console.log("--- updating package repository... ---");
+    console.log("--- updating package repository...");
     await run("apt update");
 
-    console.log("--- installing neovim binary... ---");
-    await run("apt install ripgrep neovim=0.9.5-6ubuntu2 -y");
+    await installNeovimFromSource();
 
-    console.log("--- cloning neovim config... ---");
-    await run(
-      `git clone --branch wf-dotfiles ${NEOVIM_CONFIG_URL} ${neovimConfigDestination}`,
-    );
+    console.log("--- cloning neovim config...");
+    await run(`git clone ${NEOVIM_CONFIG_URL} ${neovimConfigDestination}`);
 
-    console.log("--- installation successful! ---");
+    console.log("--- installation successful!");
   } catch (err) {
     console.error(err);
     process.exit(1);
