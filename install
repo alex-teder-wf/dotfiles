@@ -1,13 +1,11 @@
 #!/usr/bin/env node
 const path = require("node:path");
-const { exec, execSync } = require("node:child_process");
+const { exec } = require("node:child_process");
 const { promisify } = require("node:util");
 const fs = require("node:fs");
 
 const run = promisify(exec);
-
-const NEOVIM_CONFIG_URL = "https://github.com/alex-teder/nvim-config-v2.git";
-const neovimConfigDestination = path.join(process.env.HOME, ".config", "nvim");
+const print = console.log;
 
 const copyDir = (source, destination) => {
   if (!fs.existsSync(destination)) {
@@ -27,43 +25,40 @@ const copyDir = (source, destination) => {
   }
 };
 
-const installDotfiles = () => {
-  copyDir(path.join(__dirname, "dotfiles"), process.env.HOME);
-};
-
 const installNeovimFromSource = async () => {
-  console.log("--- installing dependencies...");
+  print("--- installing dependencies...");
   await run(
     "apt install ninja-build gettext cmake curl build-essential ripgrep -y",
   );
 
-  console.log("--- cloning neovim repository...");
+  print("--- cloning neovim repository...");
   await run(
     `git clone --branch stable https://github.com/neovim/neovim ${path.join(process.env.HOME, "neovim")}`,
   );
 
-  console.log("--- building neovim...");
+  print("--- building neovim...");
   await run(
     'make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=/opt/wf-state/neovim"',
     { cwd: path.join(process.env.HOME, "neovim") },
   );
 
-  console.log("--- installing neovim...");
+  print("--- installing...");
   await run("make install", { cwd: path.join(process.env.HOME, "neovim") });
 };
 
-(async () => {
+const main = async () => {
   try {
-    installDotfiles();
-    console.log("--- dotfiles copied.");
+    copyDir(path.join(__dirname, "dotfiles"), process.env.HOME);
+    print("--- dotfiles copied.");
 
-    console.log("--- updating package repository...");
+    print("--- updating package repository...");
     await run("apt update");
 
     if (fs.existsSync("/opt/wf-state/neovim/bin/nvim")) {
-      console.log("--- neovim binary found.");
+      print("--- neovim binary found.");
       await run("apt install ripgrep -y");
     } else {
+      print("--- neovim binary not found.");
       await installNeovimFromSource();
     }
 
@@ -71,14 +66,22 @@ const installNeovimFromSource = async () => {
       path.join(process.env.HOME, ".bashrc"),
       '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"',
     );
-    console.log("--- $PATH updated.");
+    print("--- $PATH updated.");
 
-    console.log("--- cloning neovim config...");
-    await run(`git clone ${NEOVIM_CONFIG_URL} ${neovimConfigDestination}`);
+    print("--- cloning neovim config...");
+    await run(
+      `git clone "https://github.com/alex-teder/nvim-config-v2.git" ${path.join(
+        process.env.HOME,
+        ".config",
+        "nvim",
+      )}`,
+    );
 
-    console.log("--- installation successful!");
+    print("--- installation successful!");
   } catch (err) {
     console.error(err);
     process.exit(1);
   }
-})();
+};
+
+main();
