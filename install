@@ -68,7 +68,7 @@ const installNeovimFromSource = async () => {
 
     await run("which nvim")
       .then(() => run("apt install ripgrep -y"))
-      .catch(installNeovimFromSource);
+      .catch((e) => (console.error(e), installNeovimFromSource()));
 
     console.log("--- cloning neovim config...");
     await run(`git clone ${NEOVIM_CONFIG_URL} ${neovimConfigDestination}`);
