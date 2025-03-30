@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const path = require("node:path");
-const { exec } = require("node:child_process");
+const { exec, execSync } = require("node:child_process");
 const { promisify } = require("node:util");
 const fs = require("node:fs");
 
@@ -66,7 +66,9 @@ const installNeovimFromSource = async () => {
     console.log("--- updating package repository...");
     await run("apt update");
 
-    await installNeovimFromSource();
+    await run("which nvim")
+      .then(() => run("apt install ripgrep -y"))
+      .catch(installNeovimFromSource);
 
     console.log("--- cloning neovim config...");
     await run(`git clone ${NEOVIM_CONFIG_URL} ${neovimConfigDestination}`);
