@@ -77,6 +77,12 @@ const main = async () => {
       )}`,
     );
 
+    fs.appendFileSync(
+      path.join(process.env.HOME, ".bashrc"),
+      '\nalias v="nvim"',
+    );
+    print("--- aliases updated.");
+
     print("--- installation successful!");
   } catch (err) {
     console.error(err);
