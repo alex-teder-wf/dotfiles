@@ -62,6 +62,8 @@ const main = async () => {
       await installNeovimFromSource();
     }
 
+    await run("apt install python3.12-venv -y");
+
     fs.appendFileSync(
       path.join(process.env.HOME, ".bashrc"),
       '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"',
