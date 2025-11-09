@@ -1,95 +1,36 @@
 #!/usr/bin/env node
-const path = require("node:path");
-const { exec } = require("node:child_process");
-const { promisify } = require("node:util");
-const fs = require("node:fs");
+var fs = require('node:fs');
+var { execSync } = require('node:child_process');
+var path = require('node:path');
 
-const run = promisify(exec);
-const print = console.log;
+var run = (command, options) => execSync(
+  command,
+  { ...options, stdio: 'inherit' }
+);
 
-const copyDir = (source, destination) => {
-  if (!fs.existsSync(destination)) {
-    fs.mkdirSync(destination, { recursive: true });
-  }
+var dotfiles = path.join(__dirname, 'dotfiles');
+var home = process.env.HOME;
+fs.cpSync(dotfiles, home, { recursive: true });
 
-  const items = fs.readdirSync(source);
-  for (const item of items) {
-    const srcPath = path.join(source, item);
-    const destPath = path.join(destination, item);
+var deps = ['ripgrep', 'python3.12-venv'];
+run(`apt update && apt install ${deps.join(' ')} -y`);
 
-    if (fs.statSync(srcPath).isDirectory()) {
-      copyDir(srcPath, destPath);
-    } else {
-      fs.copyFileSync(srcPath, destPath);
-    }
-  }
-};
-
-const installNeovimFromSource = async () => {
-  print("--- installing dependencies...");
-  await run(
-    "apt install ninja-build gettext cmake curl build-essential ripgrep -y",
-  );
-
-  print("--- cloning neovim repository...");
-  await run(
-    `git clone --branch stable https://github.com/neovim/neovim ${path.join(process.env.HOME, "neovim")}`,
-  );
-
-  print("--- building neovim...");
-  await run(
+var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
+!hasNeovim && ((nvim_path) => (
+  run('apt install ninja-build gettext cmake curl build-essential ripgrep -y'),
+  run(`git clone --branch stable https://github.com/neovim/neovim ${nvim_path}`),
+  run(
     'make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=/opt/wf-state/neovim"',
-    { cwd: path.join(process.env.HOME, "neovim") },
-  );
+    { cwd: nvim_path }
+  ),
+  run('make install', { cwd: nvim_path })
+))(path.join(process.env.HOME, 'neovim'));
 
-  print("--- installing...");
-  await run("make install", { cwd: path.join(process.env.HOME, "neovim") });
-};
+fs.appendFileSync(
+  path.join(process.env.HOME, '.bashrc'),
+  '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"\nalias v="nvim"'
+);
 
-const main = async () => {
-  try {
-    copyDir(path.join(__dirname, "dotfiles"), process.env.HOME);
-    print("--- dotfiles copied.");
-
-    print("--- updating package repository...");
-    await run("apt update");
-
-    if (fs.existsSync("/opt/wf-state/neovim/bin/nvim")) {
-      print("--- neovim binary found.");
-      await run("apt install ripgrep -y");
-    } else {
-      print("--- neovim binary not found.");
-      await installNeovimFromSource();
-    }
-
-    await run("apt install python3.12-venv -y");
-
-    fs.appendFileSync(
-      path.join(process.env.HOME, ".bashrc"),
-      '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"',
-    );
-    print("--- $PATH updated.");
-
-    print("--- cloning neovim config...");
-    await run(
-      `git clone "https://github.com/alex-teder/nvim-config-v2.git" ${path.join(
-        process.env.HOME,
-        ".config",
-        "nvim",
-      )}`,
-    );
-
-    fs.appendFileSync(
-      path.join(process.env.HOME, ".bashrc"),
-      '\nalias v="nvim"',
-    );
-    print("--- aliases updated.");
-
-    print("--- installation successful!");
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
-};
-
-main();
+((nvim_config_path) => 
+  run(`git clone "https://github.com/alex-teder/nvim-config-v2.git" ${nvim_config_path}`)
+)(path.join(process.env.HOME, '.config', 'nvim'));
