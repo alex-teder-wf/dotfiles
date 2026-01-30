@@ -27,7 +27,7 @@ var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
 [
   path.join(__dirname, 'bash/nvim-postinstall.sh'),
   path.join(__dirname, 'bash/prompt.sh'),
-].forEach(p => run(`source ${p}`));
+].forEach(p => run(`. ${p}`));
 
 ((nvim_config_path) => 
   run(`git clone "https://github.com/alex-teder/nvim-config-v2.git" ${nvim_config_path}`)
