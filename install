@@ -29,7 +29,7 @@ fs.appendFileSync(
   '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"\nalias v="nvim"',
 );
 
-var prompt = 'export PS1="[\\u@\${COMPOSE_PROJECT_NAME} \\[\\033[0;35m\\]\\w\\[\\033[0m\\]]\\n"';
+var prompt = 'export PS1="[\\u@\${COMPOSE_PROJECT_NAME} \\[\\033[0;35m\\]\\w\\[\\033[0m\\]]\\n$ "';
 
 fs.appendFileSync(
   path.join(process.env.HOME, '.bashrc'),
