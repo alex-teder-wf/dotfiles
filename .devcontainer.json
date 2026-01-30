@@ -1,5 +1,5 @@
 {
-	"dockerComposeFile": [],
-	"service": "dev",
-	"workspaceFolder": "/workspace",
+  "dockerComposeFile": [],
+  "service": "dev",
+  "workspaceFolder": "/workspace"
 }
