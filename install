@@ -25,8 +25,8 @@ var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
 ))(path.join(process.env.HOME, 'neovim'));
 
 [
-  path.join(__dirname, 'bash/nvim-postinstall.sh'),
-  path.join(__dirname, 'bash/prompt.sh'),
+  path.join(dotfiles, 'bash', 'nvim-postinstall.sh'),
+  path.join(dotfiles, 'bash', 'prompt.sh'),
 ].forEach(p => run(`. ${p}`));
 
 ((nvim_config_path) => 
