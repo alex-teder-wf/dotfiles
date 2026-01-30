@@ -24,14 +24,16 @@ var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
   run('make install', { cwd: nvim_path })
 ))(path.join(process.env.HOME, 'neovim'));
 
-fs.appendFileSync(
-  path.join(process.env.HOME, '.bashrc'),
-  '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"\nalias v="nvim"',
-);
+[
+  path.join(__dirname, 'dotfiles', 'bash/nvim-postinstall.sh'),
+  path.join(__dirname, 'dotfiles', 'bash/prompt.sh'),
+].forEach(p => run(`source ${p}`));
 
 ((nvim_config_path) => 
   run(`git clone "https://github.com/alex-teder/nvim-config-v2.git" ${nvim_config_path}`)
 )(path.join(process.env.HOME, '.config', 'nvim'));
+
+run('npm i -g typescript-language-server');
 
 console.log(`
                       _                        
