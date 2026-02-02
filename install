@@ -29,18 +29,23 @@ fs.appendFileSync(
   '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"\nalias v="nvim"',
 );
 
-var prompt = 'export PS1="[\\u@\${COMPOSE_PROJECT_NAME} \\[\\033[0;35m\\]\\w\\[\\033[0m\\]]\\n$ "';
-
-fs.appendFileSync(
+((prompt) => fs.appendFileSync(
   path.join(process.env.HOME, '.bashrc'),
   `\n${prompt}`,
-);
+))(
+    'export PS1="[\\u@\${COMPOSE_PROJECT_NAME} \\[\\033[0;35m\\]\\w\\[\\033[0m\\]]\\n$ "'
+  );
 
 ((nvim_config_path) => 
   run(`git clone "https://github.com/alex-teder/nvim-config-v2.git" ${nvim_config_path}`)
 )(path.join(process.env.HOME, '.config', 'nvim'));
 
-run('npm i -g typescript-language-server');
+try {
+  run('npm i -g typescript-language-server');
+} catch {
+  run('wf login');
+  run('npm i -g typescript-language-server');
+}
 
 console.log(`
                       _                        
