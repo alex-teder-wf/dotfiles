@@ -11,7 +11,7 @@ fs.cpSync(dotfiles, home, { recursive: true });
 
 run('apt update && apt install ripgrep python3.12-venv -y');
 
-fs.existsSync('e2e/install.sh') && run('e2e/install.sh');
+// fs.existsSync('e2e/install.sh') && run('e2e/install.sh');
 
 var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
 !hasNeovim && ((nvim_path) => (
