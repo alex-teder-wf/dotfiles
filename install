@@ -16,7 +16,7 @@ run('apt update && apt install ripgrep python3.12-venv -y');
 var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
 !hasNeovim && ((nvim_path) => (
   run('apt install ninja-build gettext cmake curl build-essential -y'),
-  run(`git clone --branch stable https://github.com/neovim/neovim ${nvim_path}`),
+  run(`git clone --branch v0.11.6 --depth 1 https://github.com/neovim/neovim ${nvim_path}`),
   run(
     'make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=/opt/wf-state/neovim"',
     { cwd: nvim_path }
