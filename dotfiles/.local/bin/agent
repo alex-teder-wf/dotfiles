@@ -1,6 +1,0 @@
-#!/bin/bash
-if ! command -v agent &>/dev/null; then
-  curl https://cursor.com/install -fsS | bash
-else
-  agent
-fi
