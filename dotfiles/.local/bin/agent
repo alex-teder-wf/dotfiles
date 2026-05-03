@@ -1,0 +1,70 @@
+#!/usr/bin/env node
+const fs = require("fs");
+const os = require("os");
+const path = require("path");
+const { execFileSync, spawnSync } = require("child_process");
+
+function resolveInstalledAgent() {
+  const versionsDir = path.join(
+    os.homedir(),
+    ".local/share/cursor-agent/versions",
+  );
+  if (!fs.existsSync(versionsDir)) {
+    return null;
+  }
+  const names = fs
+    .readdirSync(versionsDir)
+    .filter((n) => !n.startsWith(".tmp"))
+    .sort()
+    .reverse();
+  for (const name of names) {
+    const candidate = path.join(versionsDir, name, "cursor-agent");
+    try {
+      fs.accessSync(candidate, fs.constants.X_OK);
+      return candidate;
+    } catch {
+      continue;
+    }
+  }
+  return null;
+}
+
+function runInstallScript() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "cursor-install-"));
+  const scriptPath = path.join(dir, "install.sh");
+  try {
+    execFileSync(
+      "curl",
+      ["-fsSL", "https://cursor.com/install", "-o", scriptPath],
+      {
+        stdio: "inherit",
+      },
+    );
+    const r = spawnSync("bash", [scriptPath], { stdio: "inherit" });
+    if (r.error) {
+      throw r.error;
+    }
+    if (r.status !== 0) {
+      process.exit(r.status ?? 1);
+    }
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+let binary = resolveInstalledAgent();
+if (!binary) {
+  runInstallScript();
+  binary = resolveInstalledAgent();
+}
+
+if (!binary) {
+  console.error(
+    "Cursor Agent install finished but cursor-agent was not found under ~/.local/share/cursor-agent/versions/",
+  );
+  process.exit(1);
+}
+
+const args = process.argv.slice(2);
+const r = spawnSync(binary, args, { stdio: "inherit" });
+process.exit(r.status === null ? 1 : r.status);
