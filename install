@@ -26,7 +26,9 @@ var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
 
 fs.appendFileSync(
   path.join(process.env.HOME, '.bashrc'),
-  '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"\nalias v="nvim"',
+  '\nexport PATH="/opt/wf-state/neovim/bin:$PATH"'
+    + '\nalias v="nvim"'
+    + '\nexport CURSOR_CONFIG_DIR=/opt/wf-state/.config/cursor',
 );
 
 ((prompt) => fs.appendFileSync(
