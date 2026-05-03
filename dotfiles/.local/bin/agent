@@ -1,35 +1,7 @@
 #!/usr/bin/env node
-const fs = require("fs");
-const os = require("os");
-const path = require("path");
-const { execSync, spawnSync } = require("child_process");
+const { execSync } = require("node:child_process");
 
-function resolveInstalledBinary() {
-  const entry = path.join(os.homedir(), ".local/bin/agent");
-  try {
-    const resolved = fs.realpathSync(entry);
-    if (resolved.endsWith("/cursor-agent")) {
-      return resolved;
-    }
-  } catch {
-    // missing or not yet installed
-  }
-  return null;
-}
-
-let binary = resolveInstalledBinary();
-if (!binary) {
-  execSync("curl -fsSL https://cursor.com/install | bash", {
-    stdio: "inherit",
-    shell: "/bin/bash",
-  });
-  binary = resolveInstalledBinary();
-}
-
-if (!binary) {
-  console.error("Cursor Agent CLI did not install correctly.");
-  process.exit(1);
-}
-
-const r = spawnSync(binary, process.argv.slice(2), { stdio: "inherit" });
-process.exit(r.status === null ? 1 : r.status);
+execSync("curl -fsSL https://cursor.com/install | bash", {
+  stdio: "inherit",
+  shell: "/bin/bash",
+});
