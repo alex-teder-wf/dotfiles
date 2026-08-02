@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var fs = require('node:fs');
-var { execSync, spawnSync } = require('node:child_process');
+var { execSync, spawnSync, spawn } = require('node:child_process');
 var path = require('node:path');
 
 var run = (command, options) => execSync(command, { ...options, stdio: 'inherit' });
@@ -11,7 +11,9 @@ fs.cpSync(dotfiles, home, { recursive: true });
 
 run('apt update && apt install ripgrep starship zoxide -y');
 
-// fs.existsSync('e2e/install.sh') && run('e2e/install.sh');
+fs.existsSync('e2e/install.sh') && (() => {
+  spawn("e2e/install.sh", [], { detached: true, stdio: "ignore" }).unref();
+})();
 
 var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
 !hasNeovim && ((nvim_path) => (
@@ -27,7 +29,7 @@ var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
 var hasTreeSitter = spawnSync('which', ['tree-sitter'], { stdio: "ignore" }).status === 0;
 !hasTreeSitter && (() => {
   run("curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash")
-  run("~/.cargo/bin/cargo-binstall tree-sitter-cli -y")
+  run("~/.cargo/bin/cargo-binstall tree-sitter-cli -y --install-path /opt/wf-state/neovim/bin")
 })();
 
 fs.appendFileSync(
