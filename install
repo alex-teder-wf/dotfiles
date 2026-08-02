@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var fs = require('node:fs');
-var { execSync, spawnSync, spawn } = require('node:child_process');
+var { execSync, spawn } = require('node:child_process');
 var path = require('node:path');
 
 var run = (command, options) => execSync(command, { ...options, stdio: 'inherit' });
@@ -12,7 +12,7 @@ fs.cpSync(dotfiles, home, { recursive: true });
 run('apt update && apt install ripgrep starship zoxide -y');
 
 fs.existsSync('/workspace/e2e/install.sh') && (() => {
-  console.log("installing playwright...");
+  console.log("--- installing playwright... ---");
   spawn("/workspace/e2e/install.sh", [], { detached: true, stdio: "ignore" }).unref();
 })();
 
@@ -24,19 +24,18 @@ var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
     'make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=/opt/wf-state/neovim"',
     { cwd: nvim_path }
   ),
-  run('make install', { cwd: nvim_path })
+  run('make install', { cwd: nvim_path }),
+
+  // install cargo-binstall
+  run("curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash"),
+  // install tree-sitter-cli
+  run("~/.cargo/bin/cargo-binstall tree-sitter-cli -y --install-path /opt/wf-state/neovim/bin")
 ))(path.join(process.env.HOME, 'neovim'));
 
 fs.appendFileSync(
   path.join(process.env.HOME, '.bashrc'),
   `\nsource ~/.bashrc.d/dotfiles.sh`
 );
-
-var hasTreeSitter = spawnSync('which', ['tree-sitter'], { stdio: "ignore" }).status === 0;
-!hasTreeSitter && (() => {
-  run("curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash")
-  run("~/.cargo/bin/cargo-binstall tree-sitter-cli -y --install-path /opt/wf-state/neovim/bin")
-})();
 
 ((nvim_config_path) => 
   run(`git clone "https://github.com/alex-teder/nvim-smol.git" ${nvim_config_path}`)
