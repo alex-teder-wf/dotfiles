@@ -11,8 +11,9 @@ fs.cpSync(dotfiles, home, { recursive: true });
 
 run('apt update && apt install ripgrep starship zoxide -y');
 
-fs.existsSync('e2e/install.sh') && (() => {
-  spawn("e2e/install.sh", [], { detached: true, stdio: "ignore" }).unref();
+fs.existsSync('/workspace/e2e/install.sh') && (() => {
+  console.log("installing playwright...");
+  spawn("/workspace/e2e/install.sh", [], { detached: true, stdio: "ignore" }).unref();
 })();
 
 var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
@@ -26,16 +27,16 @@ var hasNeovim = fs.existsSync('/opt/wf-state/neovim/bin/nvim');
   run('make install', { cwd: nvim_path })
 ))(path.join(process.env.HOME, 'neovim'));
 
+fs.appendFileSync(
+  path.join(process.env.HOME, '.bashrc'),
+  `\nsource ~/.bashrc.d/dotfiles.sh`
+);
+
 var hasTreeSitter = spawnSync('which', ['tree-sitter'], { stdio: "ignore" }).status === 0;
 !hasTreeSitter && (() => {
   run("curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash")
   run("~/.cargo/bin/cargo-binstall tree-sitter-cli -y --install-path /opt/wf-state/neovim/bin")
 })();
-
-fs.appendFileSync(
-  path.join(process.env.HOME, '.bashrc'),
-  `\nsource ~/.bashrc.d/dotfiles.sh`
-);
 
 ((nvim_config_path) => 
   run(`git clone "https://github.com/alex-teder/nvim-smol.git" ${nvim_config_path}`)
