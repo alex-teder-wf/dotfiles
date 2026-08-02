@@ -1,0 +1,9 @@
+add_newline = false
+[package]
+disabled = true
+[cmd_duration]
+disabled = true
+[aws]
+disabled = true
+[container]
+disabled = true
