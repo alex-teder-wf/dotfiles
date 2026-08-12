@@ -1,0 +1,16 @@
+// Place your key bindings in this file to override the defaults
+[
+  // cmd+alt+b opens the secondary side bar maximized and focused.
+  // maximizeAuxiliaryBar un-hides the part and hides the editor/side bar/panel;
+  // focusAuxiliaryBar then puts the cursor in Claude.
+  {
+    "key": "cmd+alt+b",
+    "command": "runCommands",
+    "args": {
+      "commands": ["workbench.action.maximizeAuxiliaryBar", "workbench.action.focusAuxiliaryBar"],
+    },
+    "when": "!auxiliaryBarVisible",
+  },
+  // Hiding while maximized un-maximizes first, so the old layout comes back.
+  { "key": "cmd+alt+b", "command": "workbench.action.closeAuxiliaryBar", "when": "auxiliaryBarVisible" },
+]
