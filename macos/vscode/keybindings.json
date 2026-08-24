@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "key": "ctrl+w w",
+    "command": "workbench.action.focusNextPart"
+  },
+  {
+    "key": "ctrl+w shift+w",
+    "command": "workbench.action.focusPreviousPart"
+  },
+  {
+    "key": "ctrl+w h",
+    "command": "workbench.action.navigateLeft"
+  },
+  {
+    "key": "ctrl+w j",
+    "command": "workbench.action.navigateDown"
+  },
+  {
+    "key": "ctrl+w k",
+    "command": "workbench.action.navigateUp"
+  },
+  {
+    "key": "ctrl+w l",
+    "command": "workbench.action.navigateRight"
+  }
+]

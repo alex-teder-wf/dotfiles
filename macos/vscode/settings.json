@@ -107,5 +107,83 @@
     "njpwerner.autodocstring",
     "tamasfe.even-better-toml"
   ],
-  "telemetry.telemetryLevel": "off"
+  "telemetry.telemetryLevel": "off",
+  "workbench.colorTheme": "Light Modern",
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "k"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["K"],
+      "commands": ["editor.action.showHover"]
+    },
+    {
+      "before": ["<Space>", "f", "r"],
+      "commands": ["editor.action.referenceSearch.trigger"]
+    },
+    {
+      "before": ["<Space>", "r", "n"],
+      "commands": ["editor.action.rename"]
+    },
+    {
+      "before": ["<Space>", "d", "n"],
+      "commands": ["editor.action.marker.next"]
+    },
+    {
+      "before": ["<Space>", "d", "N"],
+      "commands": ["editor.action.marker.prev"]
+    },
+    {
+      "before": ["<Space>", "g", "n"],
+      "commands": ["workbench.action.editor.nextChange"]
+    },
+    {
+      "before": ["<Space>", "g", "N"],
+      "commands": ["workbench.action.editor.previousChange"]
+    },
+    {
+      "before": ["<Space>", "g", "p"],
+      "commands": ["editor.action.dirtydiff.next"]
+    },
+    {
+      "before": ["g", "1"],
+      "commands": ["workbench.action.openEditorAtIndex1"]
+    },
+    {
+      "before": ["g", "2"],
+      "commands": ["workbench.action.openEditorAtIndex2"]
+    },
+    {
+      "before": ["g", "3"],
+      "commands": ["workbench.action.openEditorAtIndex3"]
+    },
+    {
+      "before": ["g", "4"],
+      "commands": ["workbench.action.openEditorAtIndex4"]
+    },
+    {
+      "before": ["g", "5"],
+      "commands": ["workbench.action.openEditorAtIndex5"]
+    },
+    {
+      "before": ["g", "6"],
+      "commands": ["workbench.action.openEditorAtIndex6"]
+    },
+    {
+      "before": ["g", "7"],
+      "commands": ["workbench.action.openEditorAtIndex7"]
+    },
+    {
+      "before": ["g", "8"],
+      "commands": ["workbench.action.openEditorAtIndex8"]
+    },
+    {
+      "before": ["g", "9"],
+      "commands": ["workbench.action.openEditorAtIndex9"]
+    }
+  ],
+  "terminal.integrated.initialHint": false,
 }

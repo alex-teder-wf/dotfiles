@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-vscode_user_dir="$HOME/Library/Application Support/Code/User"
+vscode_user_dir="$HOME/Library/Application Support/Code - Insiders/User"
 
 mkdir -p "$vscode_user_dir"
 
