@@ -1,44 +1,44 @@
 {
   "[hcl]": {
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
+      "source.fixAll.eslint": "explicit",
+    },
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
   },
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
   },
   "[markdown]": {
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
   },
   "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff"
+    "editor.defaultFormatter": "charliermarsh.ruff",
   },
   "[restructuredtext]": {
-    "editor.tabSize": 3
+    "editor.tabSize": 3,
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
+      "source.fixAll.eslint": "explicit",
+    },
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
+      "source.fixAll.eslint": "explicit",
+    },
   },
   "autoDocstring.docstringFormat": "google-notypes",
   "dev.containers.defaultExtensions": [
@@ -51,10 +51,10 @@
     "meta.pyrefly",
     "ms-python.python",
     "njpwerner.autodocstring",
-    "tamasfe.even-better-toml"
+    "tamasfe.even-better-toml",
   ],
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
+    "source.organizeImports": "explicit",
   },
   "editor.detectIndentation": false,
   "editor.formatOnSave": true,
@@ -79,7 +79,7 @@
     "**/dist": true,
     "**/docs/_build": true,
     "**/node_modules": true,
-    "**/target": true
+    "**/target": true,
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
@@ -88,7 +88,7 @@
     "**/.*_cache": true,
     "**/.venv": true,
     "**/docs/_build": true,
-    "**/node_modules": true
+    "**/node_modules": true,
   },
   "prettier.prettierPath": "./node_modules/prettier",
   "python.analysis.typeCheckingMode": "off",
@@ -105,85 +105,122 @@
     "meta.pyrefly",
     "ms-python.python",
     "njpwerner.autodocstring",
-    "tamasfe.even-better-toml"
+    "tamasfe.even-better-toml",
   ],
   "telemetry.telemetryLevel": "off",
+  // end of wf recommended settings
   "workbench.colorTheme": "Light Modern",
   "vim.insertModeKeyBindings": [
     {
       "before": ["j", "k"],
-      "after": ["<Esc>"]
-    }
+      "after": ["<Esc>"],
+    },
   ],
   "vim.normalModeKeyBindingsNonRecursive": [
     {
       "before": ["K"],
-      "commands": ["editor.action.showHover"]
+      "commands": ["editor.action.showHover"],
     },
     {
       "before": ["<Space>", "f", "r"],
-      "commands": ["editor.action.referenceSearch.trigger"]
+      "commands": ["editor.action.referenceSearch.trigger"],
     },
     {
       "before": ["<Space>", "r", "n"],
-      "commands": ["editor.action.rename"]
+      "commands": ["editor.action.rename"],
     },
     {
       "before": ["<Space>", "d", "n"],
-      "commands": ["editor.action.marker.next"]
+      "commands": ["editor.action.marker.next"],
     },
     {
       "before": ["<Space>", "d", "N"],
-      "commands": ["editor.action.marker.prev"]
+      "commands": ["editor.action.marker.prev"],
     },
     {
       "before": ["<Space>", "g", "n"],
-      "commands": ["workbench.action.editor.nextChange"]
+      "commands": ["workbench.action.editor.nextChange"],
     },
     {
       "before": ["<Space>", "g", "N"],
-      "commands": ["workbench.action.editor.previousChange"]
+      "commands": ["workbench.action.editor.previousChange"],
     },
     {
       "before": ["<Space>", "g", "p"],
-      "commands": ["editor.action.dirtydiff.next"]
+      "commands": ["editor.action.dirtydiff.next"],
     },
     {
       "before": ["g", "1"],
-      "commands": ["workbench.action.openEditorAtIndex1"]
+      "commands": ["workbench.action.openEditorAtIndex1"],
     },
     {
       "before": ["g", "2"],
-      "commands": ["workbench.action.openEditorAtIndex2"]
+      "commands": ["workbench.action.openEditorAtIndex2"],
     },
     {
       "before": ["g", "3"],
-      "commands": ["workbench.action.openEditorAtIndex3"]
+      "commands": ["workbench.action.openEditorAtIndex3"],
     },
     {
       "before": ["g", "4"],
-      "commands": ["workbench.action.openEditorAtIndex4"]
+      "commands": ["workbench.action.openEditorAtIndex4"],
     },
     {
       "before": ["g", "5"],
-      "commands": ["workbench.action.openEditorAtIndex5"]
+      "commands": ["workbench.action.openEditorAtIndex5"],
     },
     {
       "before": ["g", "6"],
-      "commands": ["workbench.action.openEditorAtIndex6"]
+      "commands": ["workbench.action.openEditorAtIndex6"],
     },
     {
       "before": ["g", "7"],
-      "commands": ["workbench.action.openEditorAtIndex7"]
+      "commands": ["workbench.action.openEditorAtIndex7"],
     },
     {
       "before": ["g", "8"],
-      "commands": ["workbench.action.openEditorAtIndex8"]
+      "commands": ["workbench.action.openEditorAtIndex8"],
     },
     {
       "before": ["g", "9"],
-      "commands": ["workbench.action.openEditorAtIndex9"]
-    }
+      "commands": ["workbench.action.openEditorAtIndex9"],
+    },
   ],
   "terminal.integrated.initialHint": false,
+  "editor.fontSize": 13,
+  "workbench.navigationControl.enabled": false,
+  "editor.stickyScroll.enabled": false,
+  "breadcrumbs.enabled": false,
+  "editor.cursorSurroundingLines": 8,
+  "editor.lineNumbers": "relative",
+  "editor.glyphMargin": false,
+  // "workbench.editor.editorActionsLocation": "titleBar",
+  "editor.lightbulb.enabled": "off",
+  "editor.renderLineHighlight": "none",
+  "workbench.startupEditor": "none",
+  "workbench.editor.enablePreview": false,
+  "claudeCode.preferredLocation": "sidebar",
+  "workbench.browser.showInTitleBar": false,
+  "window.commandCenter": false,
+  "editor.minimap.enabled": false,
+  "workbench.layoutControl.enabled": false,
+  "terminal.integrated.stickyScroll.enabled": false,
+  "terminal.integrated.localEchoLatencyThreshold": 0,
+  "update.showReleaseNotes": false,
+  "terminal.integrated.localEchoEnabled": "on",
+  "terminal.integrated.localEchoExcludePrograms": [],
+  "terminal.integrated.shellIntegration.decorationsEnabled": "never",
+  "terminal.integrated.shellIntegration.history": 1000,
+  "remote.containers.dotfiles.repository": "git@github.com:alex-teder-wf/dotfiles",
+  "chat.titleBar.signIn.enabled": false,
+  "chat.titleBar.openInAgentsWindow.enabled": false,
+  "extensions.experimental.affinity": {
+    "vscodevim.vim": 1,
+  },
+  "terminal.integrated.fontFamily": "'FiraCode Nerd Font', monospace",
+  "gitlens.showWhatsNewAfterUpgrades": false,
+  "gitlens.currentLine.enabled": false,
+  "gitlens.codeLens.authors.enabled": false,
+  "gitlens.codeLens.enabled": false,
+  "gitlens.codeLens.recentChange.enabled": false,
 }
