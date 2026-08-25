@@ -6,7 +6,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit",
+      "source.fixAll.eslint": "explicit"
     },
   },
   "[json]": {
@@ -30,14 +30,14 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit",
+      "source.fixAll.eslint": "explicit"
     },
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit",
+      "source.fixAll.eslint": "explicit"
     },
   },
   "autoDocstring.docstringFormat": "google-notypes",
@@ -220,4 +220,5 @@
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.codeLens.enabled": false,
   "gitlens.codeLens.recentChange.enabled": false,
+  "workbench.editor.empty.hint": "hidden",
 }
