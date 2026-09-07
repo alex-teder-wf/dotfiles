@@ -64,3 +64,8 @@ File/module placement (LIFT, from the Angular style guide):
 
 - `map`/`filter`/`reduce`/`find`/`flatMap` over a loop that pushes into a result array.
 - `Map` for non-string keys or `.has`/`.delete`/`.size`; `Set` for uniqueness/membership; `WeakMap`/`WeakSet` for identity-keyed metadata that shouldn't block GC.
+
+## No code comments
+
+- Don't write any code comments.
+- JSDoc strings for component props or contracts are okay.
