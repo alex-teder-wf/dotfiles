@@ -68,4 +68,4 @@ File/module placement (LIFT, from the Angular style guide):
 ## No code comments
 
 - Don't write any code comments.
-- JSDoc strings for component props or contracts are okay.
+- JSDoc strings for component props or contracts are okay, as long as they're one line
